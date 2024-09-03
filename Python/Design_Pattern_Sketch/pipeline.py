@@ -1,3 +1,5 @@
+import sched, time
+
 class Node:
     def __init__(self, name=None, func=None):
         self.name = name
@@ -49,7 +51,12 @@ def main():
     say_hello.set_successor(say_world)
     
     runner = Runner(say_hello)
-    runner.run()
+    
+    scheduler = sched.scheduler(time.time, time.sleep)
+    scheduler.enter(5, 1, runner.run, ())
+    scheduler.run()
+    
+    # runner.run()
 
 if __name__ == "__main__":
     main()
